@@ -19,7 +19,12 @@ public class Main {
 		
 		DAOGenerique<Compte> interactionCompte = new CompteDAOMySQL();
 		DAOFactory interactionCompte2 = new DAOMySQLFactory();
-		System.out.println("T : " + interactionCompte2.getCompteDAO());
+		//System.out.println("T : " + interactionCompte2.getCompteDAO());
+		//interactionCompte.create(c4);
+		
+		BanqueFacade bf = new BanqueFacade();
+		//bf.ajouterCompte("10", Float.parseFloat("1200"));
+		System.out.println("T : " + bf.findCompte(6));
 		
 		System.out.println("Fin");
 	}
