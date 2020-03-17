@@ -1,17 +1,19 @@
 package dao;
 
-import java.util.LinkedList;
-
-import java.sql.PreparedStatement;
+import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.util.LinkedList;
 
 import datasourceManagement.MySQLManager;
 import modele.Compte;
 
 
-public class CompteDAOMySQL {
+public class CompteDAOMySQL extends DAOGenerique<Compte> {
+	
+	/*public CompteDAOMySQL(Connection conn) {
+	    super(conn);
+	}*/
+	
 	public Compte create(Compte compte) {
 			String req = "INSERT INTO Compte (numCompte, solde) VALUES ('" 
 					+ compte.getNumCompte() + ("', '" +compte.getSolde() + "')");

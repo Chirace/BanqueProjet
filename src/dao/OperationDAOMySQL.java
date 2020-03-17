@@ -1,5 +1,6 @@
 package dao;
 
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.LinkedList;
 
@@ -7,7 +8,12 @@ import datasourceManagement.MySQLManager;
 import modele.Compte;
 import modele.Operation;
 
-public class OperationDAOMySQL {
+public class OperationDAOMySQL extends DAOGenerique<Operation> {
+	
+	/*public OperationDAOMySQL(Connection conn) {
+	    super(conn);
+	}*/
+	
 	public Operation create(Operation operation) {
 		String req = "INSERT INTO Operation (intitule, montant, dateOperation, idCompte)";
 		System.out.println("Début connexion");
