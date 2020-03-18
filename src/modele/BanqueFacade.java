@@ -9,6 +9,9 @@ public class BanqueFacade {
 
 	public LinkedList<Compte> getLesComptes(){
 		LinkedList<Compte> LesComptes = new LinkedList<Compte>();
+		CompteDAOMySQL compteDAO = new CompteDAOMySQL();
+		LesComptes = compteDAO.findAll();
+		
 		return LesComptes;
 	}
 	
@@ -48,7 +51,7 @@ public class BanqueFacade {
 	}
 	
 	public void saveAll() {
-		
+		//Faut appeler le saveAll de MySQL et faut réecrire le saveAll du JSON
 	}
 	
 	

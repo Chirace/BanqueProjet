@@ -1,7 +1,8 @@
-package dao;
+package daoFactory;
 
 import java.util.LinkedList;
 
+import dao.DAOGenerique;
 import modele.Operation;
 
 public abstract class DAOFactory {

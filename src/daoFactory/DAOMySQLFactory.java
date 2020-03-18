@@ -1,4 +1,8 @@
-package dao;
+package daoFactory;
+
+import dao.CompteDAOMySQL;
+import dao.DAOGenerique;
+import dao.OperationDAOMySQL;
 
 //import modele.*;
 

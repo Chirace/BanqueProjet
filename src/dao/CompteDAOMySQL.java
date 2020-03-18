@@ -40,13 +40,18 @@ public class CompteDAOMySQL extends DAOGenerique<Compte> {
 	
 	public Compte findById(int cle) {
 		Compte compte = new Compte();
+		System.out.println("plop");
 		try {
-			String req = "SELECT * FROM Compte WHERE idCompte = " + cle;
+			String req = "SELECT * FROM compte WHERE idCompte = " + cle +";";
 			ResultSet rs = MySQLManager.getInstance().getData(req);
+			//ResultSet rs2 = MySQLManager.executeQuery(req);
+			System.out.println("numCompte : " + rs.getString("numCompte"));
+			System.out.println("solde : " + rs.getFloat("solde"));
 			compte = new Compte(rs.getString("numCompte"), rs.getFloat("solde"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		System.out.println("plop2");
 		return compte;
 	}
 	

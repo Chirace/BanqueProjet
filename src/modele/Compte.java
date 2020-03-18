@@ -73,6 +73,9 @@ public class Compte {
 		return true;
 	}
 	
+	public String toString2() {
+		return ("Clé : " + this.getCle() + ", numCompte : " + this.getNumCompte() + ", solde : " + this.getSolde());
+	}
 	
 	
 }

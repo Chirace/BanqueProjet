@@ -15,11 +15,12 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import modele.Banque;
 import modele.BanqueFacade;
 import modele.Compte;
 import modele.Operation;
 
-public class BanqueView extends JFrame {
+public class BanqueView2 extends JFrame {
 
 	private JPanel contentPane;
 	//JComboBox<String> comboComptes = null;
@@ -28,10 +29,14 @@ public class BanqueView extends JFrame {
 	JLabel labelSolde = new JLabel("solde");
 	JList<Operation> listeOperations = null;
 	DefaultListModel<Operation> listmodelOperations=new DefaultListModel<Operation>();
+	//DefaultListModel<Operation> listmodelOperations=new DefaultListModel<Operation>();
 	// le compte qui est choisi via la combobox
 	Compte compteSelectionne=null;
 	
-	BanqueFacade bm= new BanqueFacade();
+	/*
+	 * Créer ici un lien avec la façade BanqueFacade
+	 */
+	static BanqueFacade facade = new BanqueFacade();
 
 	/**
 	 * Launch the application.
@@ -40,7 +45,7 @@ public class BanqueView extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					BanqueView frame = new BanqueView();
+					BanqueView2 frame = new BanqueView2();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -52,30 +57,29 @@ public class BanqueView extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public BanqueView() {
+	public BanqueView2() {
+		//super();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 790, 602);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
 		JPanel paneauCompte = new JPanel();
 		paneauCompte.setBackground(SystemColor.inactiveCaption);
 		paneauCompte.setBounds(10, 11, 754, 104);
 		contentPane.add(paneauCompte);
 		paneauCompte.setLayout(null);
-		comboComptes = new JComboBox<Compte>();	
-		if (bm.getLesComptes()!=null)
+		comboComptes = new JComboBox<Compte>();
+		//comboComptes.addItem(new Compte("3",Float.parseFloat("1500.0")));
+		
+		for (Compte c : facade.getLesComptes())
 		{
-			for (Compte c : bm.getLesComptes())
-			{
-				comboComptes.addItem(c);
-				comboComptes.setSelectedIndex(0);
-				compteSelectionne = (Compte)comboComptes.getSelectedItem(); 
-			}
+			comboComptes.addItem(c);
 		}
-
+		
+		comboComptes.setSelectedIndex(0);
+		compteSelectionne = (Compte)comboComptes.getSelectedItem(); 
 		comboComptes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 		        JComboBox<String> comboComptes = (JComboBox)e.getSource();
@@ -142,23 +146,28 @@ public class BanqueView extends JFrame {
 		chargerCompteSelectionne();		
 	}
 	private void chargerCompteSelectionne()
+    {
+        if (compteSelectionne!=null)
+        {
+            labelSolde.setText(String.valueOf(compteSelectionne.getSolde()));
+            labelCompte.setText(((Compte)compteSelectionne).getNumCompte());
+            listmodelOperations.removeAllElements();
+            if (compteSelectionne.getLesOperations()!=null) 
+            {
+                listmodelOperations.addAll(compteSelectionne.getLesOperations());
+            }
+        }
+    }
+	
+	/*private void chargerCompteSelectionne()
 	{		
-		if (compteSelectionne!=null)
-		{
-	        labelSolde.setText(String.valueOf(compteSelectionne.getSolde()));
-	        labelCompte.setText(((Compte)compteSelectionne).getNumCompte());
 	        listmodelOperations.removeAllElements();
-	        if (compteSelectionne.getLesOperations()!=null) 
-	        {     
-	        	for (Operation c : compteSelectionne.getLesOperations()) {
-		        	listmodelOperations.addElement(c);
-	        	}
-	        	
-	        	//listmodelOperations.addAll(compteSelectionne.getLesOperations());
-	        	
-	        }
-		}
-	}
+	        listmodelOperations.addAll();
+	        /*
+	         * Remplir les JtextField du compte avec le compte sélectionné
+	         * Remplir la JList des opérations. Pour cela, utiliser ici la méthode listmodelOperations.addAll
+	         */
+	
 	private void ajouterCompte()
 	{
 		Compte c=null;
@@ -166,7 +175,9 @@ public class BanqueView extends JFrame {
 		jd.setVisible(true);
 		if (jd.isSaisieOK())
 		{
-			c=bm.ajouterCompte(jd.getNumeroCompte(), jd.getSolde());
+			/*
+			 * Créer le nouveau compte avec les données de la JDialog
+			 */
 			comboComptes.addItem(c);		
 		}
 	}
@@ -177,8 +188,9 @@ public class BanqueView extends JFrame {
 		jd.setVisible(true);
 		if (jd.isSaisieOK())
 		{
-			compteSelectionne = bm.ajouterOperation(jd.getIntitule(), jd.getDate(), jd.getMontant(), (Compte)compteSelectionne);
-			chargerCompteSelectionne();		
+			/*
+			 * Ajouter une nouvelle opération
+			 */	
 		}
 	}
 }
